@@ -1,9 +1,10 @@
+const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
-const users = require('./routes/api/users');
-const profile = require('./routes/api/profile');
+const passport = require('passport');
 const posts = require('./routes/api/posts');
-const bodyParser = require('body-parser');
+const profile = require('./routes/api/profile');
+const users = require('./routes/api/users');
 
 const app = express();
 
@@ -18,11 +19,17 @@ const db = require('./config/keys').mongoURI;
 
 // Connect to mongoDB
 mongoose
-    .connect(db)
+    .connect(db, {
+        useNewUrlParser: true
+    })
     .then(() => console.log('mongoDB connected'))
     .catch(e => console.log(e));
 
-app.get('/', (req, res) => res.send('heya whirl'));
+// Passport middleware
+app.use(passport.initialize());
+
+// Passport config
+require('./config/passport')(passport);
 
 // Use Routes
 app.use('/api/users', users);
