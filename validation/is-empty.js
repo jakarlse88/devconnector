@@ -1,3 +1,4 @@
+// Validate whether an argment is empty
 const isEmpty = val =>
     val === undefined ||
     val === null ||
