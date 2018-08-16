@@ -362,4 +362,34 @@ router.delete('/education/:edu_id', passport.authenticate('jwt', {
     });
 });
 
+// @route   DELETE api/profile/
+// @desc    Delete user and profile
+// @access  Private
+router.delete('/', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    // Hold our errors
+    const errors = {};
+
+    Profile.findOneAndRemove({
+            user: req.user.id
+        })
+        .then(() => {
+            User.findOneAndRemove({
+                    _id: req.user.id
+                })
+                .then(() => res.json({
+                    success: true
+                }))
+                .catch(err => {
+                    errors.findandremoveuser = err;
+                    return res.status(500).json(errors);
+                });
+        })
+        .catch(err => {
+            errors.findandremoveprofile = err;
+            return res.status(500).json(errors);
+        })
+});
+
 module.exports = router;
