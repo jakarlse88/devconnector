@@ -328,4 +328,38 @@ router.delete('/experience/:exp_id', passport.authenticate('jwt', {
     });
 });
 
+// @route   DELETE api/profile/education/:exp_id
+// @desc    Delete education from profile
+// @access  Private
+router.delete('/education/:edu_id', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    // Hold our errors
+    const errors = {};
+
+    Profile.findOne({
+        user: req.user.id
+    }).then(profile => {
+        // Get remove index
+        const removeIndex = profile.education
+            .map(item => item.id)
+            .indexOf(req.params.edu_id);
+
+        // Splice out of array
+        profile.education.splice(removeIndex, 1);
+
+        // Save updated profile
+        profile.save()
+            .then(profile => res.json(profile))
+            .catch(err => {
+                errors.profilesave = err;
+                return res.status(500).json(errors);
+            })
+
+    }).catch(err => {
+        errors.profilefind = err;
+        res.status(500).json(errors);
+    });
+});
+
 module.exports = router;
