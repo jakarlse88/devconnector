@@ -239,4 +239,51 @@ router.post(
 	}
 );
 
+// @route   POST api/posts/comment/:id
+// @desc    Add comment to post
+// @access  Private
+router.post('/comment/:id', passport.authenticate('jwt', {
+	session: false
+}), (req, res) => {
+	// Initialise errors and isValid
+	const {
+		errors,
+		isValid
+	} = validatePostInput(req.body);
+
+	// Return 400 and errors on invalid input
+	if (!isValid) {
+		return res.status(400).json(errors);
+	}
+
+	Post.findById(req.params.id)
+		.then(post => {
+			const newComment = {
+				text: req.body.text,
+				name: req.body.name,
+				avatar: req.body.avatar,
+				user: req.user.id
+			};
+
+			const newCommentsArr = [
+				newComment,
+				...post.comments
+			];
+
+			post.comments = newCommentsArr;
+
+			post.save()
+				.then(post => res.json(post))
+				.catch(err => {
+					errors.postSave = err;
+					return res.status(500).json(errors);
+				});
+		})
+		.catch(err => {
+			errors.postFind = err;
+			return res.status(404).json(errors);
+		});
+});
+
+
 module.exports = router;
