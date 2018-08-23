@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/authActions';
-import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import TextFieldGroup from '../common/TextFieldGroup';
 
 class Login extends Component {
     constructor() {
@@ -55,50 +55,22 @@ class Login extends Component {
                                 Sign in to your DevConnector account
                             </p>
                             <form noValidate onSubmit={this.onSubmit}>
-                                <div className="form-group">
-                                    <input
-                                        type="email"
-                                        // Conditional class application
-                                        className={classnames(
-                                            'form-control form-control-lg',
-                                            {
-                                                'is-invalid': errors.email
-                                            }
-                                        )}
-                                        placeholder="Email Address"
-                                        name="email"
-                                        value={this.state.email}
-                                        onChange={this.onChange}
-                                    />
-                                    {// Conditional error message display
-                                    errors.email && (
-                                        <div className="invalid-feedback">
-                                            {errors.email}
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="form-group">
-                                    <input
-                                        type="password"
-                                        // Conditional class application
-                                        className={classnames(
-                                            'form-control form-control-lg',
-                                            {
-                                                'is-invalid': errors.password
-                                            }
-                                        )}
-                                        placeholder="Password"
-                                        name="password"
-                                        value={this.state.password}
-                                        onChange={this.onChange}
-                                    />
-                                    {// Conditional error message display
-                                    errors.password && (
-                                        <div className="invalid-feedback">
-                                            {errors.password}
-                                        </div>
-                                    )}
-                                </div>
+                                <TextFieldGroup
+                                    error={errors.email}
+                                    name="email"
+                                    onChange={this.onChange}
+                                    placeholder="Email Address"
+                                    type="email"
+                                    value={this.state.email}
+                                />
+                                <TextFieldGroup
+                                    error={errors.password}
+                                    name="password"
+                                    onChange={this.onChange}
+                                    placeholder="Password"
+                                    type="password"
+                                    value={this.state.password}
+                                />
                                 <input
                                     type="submit"
                                     className="btn btn-info btn-block mt-4"
