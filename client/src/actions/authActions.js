@@ -12,17 +12,15 @@ export const registerUser = (userData, history) => dispatch => {
         .catch(err =>
             dispatch({
                 type: GET_ERRORS,
-                payload: {
-                    error: err.response.data
-                }
+                payload: err.response.data
             })
         );
 };
 
 // Login -- Get user token
-export const loginUser = userData => dispatch => {
+export const loginUser = loginData => dispatch => {
     axios
-        .post('/api/users/login', userData)
+        .post('/api/users/login', loginData)
         .then(res => {
             // Save token to localStorage
             const { token } = res.data;
@@ -40,9 +38,7 @@ export const loginUser = userData => dispatch => {
         .catch(err => {
             dispatch({
                 type: GET_ERRORS,
-                payload: {
-                    error: err.response.data
-                }
+                payload: err.response.data
             });
         });
 };

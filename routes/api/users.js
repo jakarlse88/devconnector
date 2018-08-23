@@ -28,11 +28,8 @@ router.get('/test', (req, res) => {
 // @desc    Register a user
 // @access  Public
 router.post('/register', (req, res) => {
-    const { 
-        errors, 
-        isValid 
-    } = validateRegisterInput(req.body);
-    
+    const { errors, isValid } = validateRegisterInput(req.body);
+
     // Check validation
     if (!isValid) {
         return res.status(400).json(errors);
@@ -65,84 +62,77 @@ router.post('/register', (req, res) => {
                     newUser
                         .save()
                         .then(user => res.json(user))
-                        .catch(err => console.log(err))
-                })
+                        .catch(err => console.log(err));
+                });
             });
         }
-    })
+    });
 });
 
 // @route   POST api/users/login
-// @desc    Login user / returning token
+// @desc    Login user / return token
 // @access  Public
 router.post('/login', (req, res) => {
-    const { 
-        errors, 
-        isValid 
-    } = validateLoginInput(req.body);
-    
+    const { errors, isValid } = validateLoginInput(req.body);
+
     // Check validation
     if (!isValid) {
         return res.status(400).json(errors);
     }
-    const {
-        email,
-        password
-    } = req.body;
+    const { email, password } = req.body;
 
     // Find user by email
     User.findOne({
-            email
-        })
-        .then(user => {
-            // Check for user
-            if (!user) {
-                errors.email = 'User not found';
-                return res.status(404).json({ errors });
-            }
+        email
+    }).then(user => {
+        // Check for user
+        if (!user) {
+            errors.email = 'User not found';
+            return res.status(404).json(errors);
+        }
 
-            // Check password
-            bcrypt.compare(password, user.password)
-                .then(isMatch => {
-                    if (isMatch) {
-                        // User matched
+        // Check password
+        bcrypt.compare(password, user.password).then(isMatch => {
+            if (isMatch) {
+                // User matched
 
-                        // Create JWT payload
-                        const payload = {
-                            id: user.id,
-                            name: user.name,
-                            avatar: user.avatar
-                        };
+                // Create JWT payload
+                const payload = {
+                    id: user.id,
+                    name: user.name,
+                    avatar: user.avatar
+                };
 
-                        // Sign token
-                        jwt.sign(
-                            payload,
-                            keys.secretOrKey, {
-                                expiresIn: 3600
-                            },
-                            (err, token) => {
-                                res.json({
-                                    success: true,
-                                    token: 'Bearer ' + token
-                                });
-                            });
-                    } else {
-                        errors.password = 'Password incorrect';
-                        return res.status(400).json({ errors });
+                // Sign token
+                jwt.sign(
+                    payload,
+                    keys.secretOrKey,
+                    {
+                        expiresIn: 3600
+                    },
+                    (err, token) => {
+                        res.json({
+                            success: true,
+                            token: 'Bearer ' + token
+                        });
                     }
-                })
-        })
+                );
+            } else {
+                errors.password = 'Password incorrect';
+                return res.status(400).json(errors);
+            }
+        });
+    });
 });
 
 // @route   GET api/users/current
-// @desc    Return current user 
+// @desc    Return current user
 // @access  Private
 router.get(
     '/current',
-    passport.authenticate(
-        'jwt', {
-            session: false
-        }),
+    passport.authenticate('jwt', {
+        session: false
+    }),
     (req, res) => {
         res.json({
             id: req.user.id,

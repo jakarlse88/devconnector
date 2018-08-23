@@ -1,69 +1,123 @@
+import { connect } from 'react-redux';
+import { loginUser } from '../../actions/authActions';
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 class Login extends Component {
-  constructor() {
-    super();
+    constructor() {
+        super();
 
-    this.state = {
-      email: '',
-      password: ''
-    };
-  }
+        this.state = {
+            email: '',
+            password: '',
+            errors: {}
+        };
+    }
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  onSubmit = e => {
-    e.preventDefault();
-
-    const loginData = {
-      email: this.state.email,
-      password: this.state.password
+    componentWillReceiveProps = nextProps => {
+        if (nextProps.auth.isAuthenticated)
+            this.props.history.push('/dashboard');
+        if (nextProps.errors) this.setState({ errors: nextProps.errors });
     };
 
-    console.log(loginData);
-  };
+    onChange = e => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
 
-  render() {
-    return (
-      <div className="login">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Log In</h1>
-              <p className="lead text-center">
-                Sign in to your DevConnector account
-              </p>
-              <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                  <input
-                    type="email"
-                    className="form-control form-control-lg"
-                    placeholder="Email Address"
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.onChange}
-                  />
+    onSubmit = e => {
+        e.preventDefault();
+
+        const loginData = {
+            email: this.state.email,
+            password: this.state.password
+        };
+
+        this.props.loginUser(loginData);
+    };
+
+    render() {
+        const { errors } = this.state;
+
+        return (
+            <div className="login">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-8 m-auto">
+                            <h1 className="display-4 text-center">Log In</h1>
+                            <p className="lead text-center">
+                                Sign in to your DevConnector account
+                            </p>
+                            <form noValidate onSubmit={this.onSubmit}>
+                                <div className="form-group">
+                                    <input
+                                        type="email"
+                                        // Conditional class application
+                                        className={classnames(
+                                            'form-control form-control-lg',
+                                            {
+                                                'is-invalid': errors.email
+                                            }
+                                        )}
+                                        placeholder="Email Address"
+                                        name="email"
+                                        value={this.state.email}
+                                        onChange={this.onChange}
+                                    />
+                                    {// Conditional error message display
+                                    errors.email && (
+                                        <div className="invalid-feedback">
+                                            {errors.email}
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="form-group">
+                                    <input
+                                        type="password"
+                                        // Conditional class application
+                                        className={classnames(
+                                            'form-control form-control-lg',
+                                            {
+                                                'is-invalid': errors.password
+                                            }
+                                        )}
+                                        placeholder="Password"
+                                        name="password"
+                                        value={this.state.password}
+                                        onChange={this.onChange}
+                                    />
+                                    {// Conditional error message display
+                                    errors.password && (
+                                        <div className="invalid-feedback">
+                                            {errors.password}
+                                        </div>
+                                    )}
+                                </div>
+                                <input
+                                    type="submit"
+                                    className="btn btn-info btn-block mt-4"
+                                />
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div className="form-group">
-                  <input
-                    type="password"
-                    className="form-control form-control-lg"
-                    placeholder="Password"
-                    name="password"
-                    value={this.state.password}
-                    onChange={this.onChange}
-                  />
-                </div>
-                <input type="submit" className="btn btn-info btn-block mt-4" />
-              </form>
             </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+        );
+    }
 }
 
-export default Login;
+Login.propTypes = {
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    auth: state.auth,
+    errors: state.errors
+});
+
+export default connect(
+    mapStateToProps,
+    { loginUser }
+)(Login);
