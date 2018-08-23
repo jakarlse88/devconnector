@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { registerUser } from '../../actions/authActions';
 import axios from 'axios';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 class Register extends Component {
