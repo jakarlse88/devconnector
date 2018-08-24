@@ -8,6 +8,7 @@ import jwt_decode from 'jwt-decode';
 import React, { Component } from 'react';
 import setAuthToken from './utils/setAuthToken';
 
+import CreateProfile from './components/createProfile/CreateProfile';
 import Dashboard from './components/dashboard/Dashboard';
 import Footer from './components/layout/Footer';
 import Landing from './components/layout/Landing';
@@ -59,6 +60,13 @@ class App extends Component {
                                     exact
                                     path="/dashboard"
                                     component={Dashboard}
+                                />
+                            </Switch>
+                            <Switch>
+                                <PrivateRoute
+                                    exact
+                                    path="/create-profile"
+                                    component={CreateProfile}
                                 />
                             </Switch>
                         </div>
