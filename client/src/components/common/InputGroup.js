@@ -8,13 +8,13 @@ const InputGroup = ({
     name,
     onChange,
     placeholder,
-    type = 'text',
+    type,
     value
 }) => {
     return (
         <div className="input-group mb-3">
             <div className="input-group-prepend">
-                <span className="input-group-ext">
+                <span className="input-group-text">
                     <i className={icon} />
                 </span>
             </div>
@@ -27,11 +27,16 @@ const InputGroup = ({
                 onChange={onChange}
                 placeholder={placeholder}
                 value={value}
+                type={type}
             />
             {// Conditional error message display
             error && <div className="invalid-feedback">{error}</div>}
         </div>
     );
+};
+
+InputGroup.defaultProps = {
+    type: 'text'
 };
 
 InputGroup.propTypes = {

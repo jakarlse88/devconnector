@@ -3,15 +3,15 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 const TextFieldGroup = ({
-    name,
-    placeholder,
-    value,
-    label,
+    disabled,
     error,
     info,
-    type = 'text', // NOTE: dunno if default arg will work here
+    label,
+    name,
     onChange,
-    disabled
+    placeholder,
+    type,
+    value
 }) => {
     return (
         <div className="form-group">
@@ -43,6 +43,10 @@ TextFieldGroup.propTypes = {
     type: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.string
+};
+
+TextFieldGroup.defaultProps = {
+    type: 'text'
 };
 
 export default TextFieldGroup;
