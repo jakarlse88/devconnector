@@ -17,6 +17,8 @@ import Register from './components/auth/Register';
 
 import store from './store';
 
+// Test comment
+
 // Check for token
 if (localStorage.jwtToken) {
     // Set auth token header auth
