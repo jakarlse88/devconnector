@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Spinner from '../common/Spinner';
 import ProfileActions from './ProfileActions'; // FIXME: this component name clashes with Redux actions file of same name
+import Experience from './Experience';
+// import Education from './Education';
 
 class Dashboard extends Component {
     componentDidMount = () => {
@@ -35,7 +37,8 @@ class Dashboard extends Component {
                         !
                     </p>
                     <ProfileActions />
-                    {/* TODO: experience and education */}
+                    <Experience experience={profile.experience} />
+                    {/* TODO: implement Education*/}
                     <div style={{ marginBottom: '60px' }} />
                     <button
                         className="btn btn-danger"
