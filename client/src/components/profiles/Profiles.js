@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 
 import { getProfilesArr } from '../../actions/profileActions';
 
+import ProfileItem from './ProfileItem';
 import Spinner from '../common/Spinner';
 
 class Profiles extends Component {
@@ -20,7 +21,9 @@ class Profiles extends Component {
             profileItems = <Spinner />;
         } else {
             if (profilesArr.length > 0) {
-                profileItems = <h1>¡Profiles here!</h1>;
+                profileItems = profilesArr.map(profile => (
+                    <ProfileItem key={profile._id} profile={profile} />
+                ));
             } else {
                 profileItems = <h4>No profiles found.</h4>;
             }
