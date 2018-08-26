@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import isEmpty from '../../validation/is-empty';
-import { spawn } from 'child_process';
 
 class ProfileItem extends Component {
     render() {

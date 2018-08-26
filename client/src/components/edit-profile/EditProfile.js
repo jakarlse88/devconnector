@@ -63,32 +63,37 @@ class EditProfile extends Component {
                 : '';
             profile.bio = !isEmpty(profile.bio) ? profile.bio : '';
             profile.social = !isEmpty(profile.social) ? profile.social : {};
-            profile.facebook = !isEmpty(profile.facebook)
-                ? profile.facebook
+            profile.social.facebook = !isEmpty(profile.social.facebook)
+                ? profile.social.facebook
                 : '';
-            profile.twitter = !isEmpty(profile.twitter) ? profile.twitter : '';
-            profile.instagram = !isEmpty(profile.instagram)
-                ? profile.instagram
+            profile.social.twitter = !isEmpty(profile.social.twitter)
+                ? profile.social.twitter
                 : '';
-            profile.linkedin = !isEmpty(profile.linkedin)
-                ? profile.linkedin
+            profile.social.instagram = !isEmpty(profile.social.instagram)
+                ? profile.social.instagram
                 : '';
-            profile.youtube = !isEmpty(profile.youtube) ? profile.youtube : '';
+            profile.social.linkedin = !isEmpty(profile.social.linkedin)
+                ? profile.social.linkedin
+                : '';
+            profile.social.youtube = !isEmpty(profile.social.youtube)
+                ? profile.social.youtube
+                : '';
 
             // Set component field states
             this.setState({
                 bio: profile.bio,
                 company: profile.company,
-                facebook: profile.facebook,
+                facebook: profile.social.facebook,
                 githubusername: profile.githubusername,
                 handle: profile.handle,
-                instagram: profile.instagram,
+                instagram: profile.social.instagram,
+                linkedin: profile.social.linkedin,
                 location: profile.location,
                 skills: skillsCSV,
                 status: profile.status,
-                twitter: profile.twitter,
+                twitter: profile.social.twitter,
                 website: profile.website,
-                youtube: profile.youtube
+                youtube: profile.social.youtube
             });
         }
     };
@@ -101,17 +106,18 @@ class EditProfile extends Component {
         e.preventDefault();
 
         const profileData = {
-            handle: this.state.handle,
-            company: this.state.company,
-            website: this.state.website,
-            location: this.state.location,
-            status: this.state.status,
-            skills: this.state.skills,
-            githubusername: this.state.githubusername,
             bio: this.state.bio,
-            twitter: this.state.twitter,
+            company: this.state.company,
             facebook: this.state.facebook,
+            githubusername: this.state.githubusername,
+            handle: this.state.handle,
             instagram: this.state.instagram,
+            linkedin: this.state.linkedin,
+            location: this.state.location,
+            skills: this.state.skills,
+            status: this.state.status,
+            twitter: this.state.twitter,
+            website: this.state.website,
             youtube: this.state.youtube
         };
 
