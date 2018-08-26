@@ -77,17 +77,17 @@ class EditProfile extends Component {
 
             // Set component field states
             this.setState({
-                handle: profile.handle,
-                company: profile.company,
-                website: profile.website,
-                location: profile.location,
-                status: profile.status,
-                skills: skillsCSV,
-                githubusername: profile.githubusername,
                 bio: profile.bio,
-                twitter: profile.twitter,
+                company: profile.company,
                 facebook: profile.facebook,
+                githubusername: profile.githubusername,
+                handle: profile.handle,
                 instagram: profile.instagram,
+                location: profile.location,
+                skills: skillsCSV,
+                status: profile.status,
+                twitter: profile.twitter,
+                website: profile.website,
                 youtube: profile.youtube
             });
         }
