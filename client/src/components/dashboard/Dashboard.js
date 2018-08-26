@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import Spinner from '../common/Spinner';
 import ProfileActions from './ProfileActions'; // FIXME: this component name clashes with Redux actions file of same name
 import Experience from './Experience';
-// import Education from './Education';
+import Education from './Education';
 
 class Dashboard extends Component {
     componentDidMount = () => {
@@ -38,7 +38,7 @@ class Dashboard extends Component {
                     </p>
                     <ProfileActions />
                     <Experience experience={profile.experience} />
-                    {/* TODO: implement Education*/}
+                    <Education education={profile.education} />
                     <div style={{ marginBottom: '60px' }} />
                     <button
                         className="btn btn-danger"
