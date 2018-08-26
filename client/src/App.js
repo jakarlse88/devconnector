@@ -8,6 +8,7 @@ import jwt_decode from 'jwt-decode';
 import React, { Component } from 'react';
 import setAuthToken from './utils/setAuthToken';
 
+import AddEducation from './components/add-credentials/AddEducation';
 import AddExperience from './components/add-credentials/AddExperience';
 import CreateProfile from './components/createProfile/CreateProfile';
 import Dashboard from './components/dashboard/Dashboard';
@@ -83,6 +84,13 @@ class App extends Component {
                                     exact
                                     path="/add-experience"
                                     component={AddExperience}
+                                />
+                            </Switch>
+                            <Switch>
+                                <PrivateRoute
+                                    exact
+                                    path="/add-education"
+                                    component={AddEducation}
                                 />
                             </Switch>
                         </div>
