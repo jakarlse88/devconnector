@@ -15,7 +15,18 @@ import { getProfileByHandle } from '../../actions/profileActions';
 class Profile extends Component {
   componentDidMount = () => {
     if (this.props.match.params.handle) {
-      this.props.getProfileByHandle(this.props.match.params.handle);
+      this.props.getProfileByHandle(
+        this.props.match.params.handle
+      );
+    }
+  };
+
+  componentWillReceiveProps = nextProps => {
+    if (
+      nextProps.profile.profile === null &&
+      this.props.profile.loading
+    ) {
+      this.props.history.push('/not-found');
     }
   };
 
@@ -31,7 +42,9 @@ class Profile extends Component {
         <div>
           <div className="row">
             <div className="col-md-6">
-              <Link to="/profiles" className="btn btn-light mb-3 float-left">
+              <Link
+                to="/profiles"
+                className="btn btn-light mb-3 float-left">
                 Back to profiles
               </Link>
             </div>
@@ -43,7 +56,11 @@ class Profile extends Component {
             education={profile.education}
             experience={profile.experience}
           />
-          <ProfileGitHub />
+          {profile.githubusername.trim() ? (
+            <ProfileGitHub
+              githubusername={profile.githubusername}
+            />
+          ) : null}
         </div>
       );
     }
@@ -52,7 +69,9 @@ class Profile extends Component {
       <div className="profile">
         <div className="container">
           <div className="row">
-            <div className="col-md-12">{profileContent}</div>
+            <div className="col-md-12">
+              {profileContent}
+            </div>
           </div>
         </div>
       </div>
