@@ -10,7 +10,7 @@ import { getPostArr } from '../../actions/postActions';
 
 class Posts extends Component {
   componentDidMount = () => {
-    this.props.getPostsArr();
+    this.props.getPostArr();
   };
 
   render() {
