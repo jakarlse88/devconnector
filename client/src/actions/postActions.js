@@ -1,9 +1,11 @@
 import axios from 'axios';
 import {
   ADD_POST,
+  DELETE_POST,
+  GET_POST,
   GET_POST_ARR,
   GET_ERRORS,
-  POST_LOADING // TODO: POST/POSTS?
+  POST_LOADING
 } from './types';
 
 // Add post
@@ -27,6 +29,51 @@ export const getPostArr = () => dispatch => {
     )
     .catch(err =>
       dispatch({ type: GET_POST_ARR, payload: null })
+    );
+};
+
+// Get post
+export const getPost = postID => dispatch => {
+  dispatch(setPostLoading());
+
+  axios
+    .get(`/api/posts/${postID}`)
+    .then(res => dispatch({ type: GET_POST, payload: res.data }))
+    .catch(err => {
+      console.log(err);
+      dispatch({ type: GET_POST, payload: null });
+    });
+};
+
+// Delete post
+export const deletePost = postID => dispatch => {
+  axios
+    .delete(`/api/posts/${postID}`)
+    .then(res =>
+      dispatch({ type: DELETE_POST, payload: postID })
+    )
+    .catch(err =>
+      dispatch({ type: GET_ERRORS, payload: err.response.data })
+    );
+};
+
+// Add like
+export const addLike = postID => dispatch => {
+  axios
+    .post(`/api/posts/like/${postID}`)
+    .then(res => dispatch(getPostArr()))
+    .catch(err =>
+      dispatch({ type: GET_ERRORS, payload: err.response.data })
+    );
+};
+
+// Remove like
+export const removeLike = postID => dispatch => {
+  axios
+    .post(`/api/posts/unlike/${postID}`)
+    .then(res => dispatch(getPostArr()))
+    .catch(err =>
+      dispatch({ type: GET_ERRORS, payload: err.response.data })
     );
 };
 

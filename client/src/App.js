@@ -25,6 +25,7 @@ import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
 import Navbar from './components/layout/Navbar';
 import NotFound from './components/not-found/NotFound';
+import Post from './components/post/Post';
 import Posts from './components/posts/Posts';
 import Profile from './components/profile/Profile';
 import Profiles from './components/profiles/Profiles';
@@ -68,11 +69,7 @@ class App extends Component {
                 path="/register"
                 component={Register}
               />
-              <Route
-                exact
-                path="/login"
-                component={Login}
-              />
+              <Route exact path="/login" component={Login} />
               <Switch>
                 <PrivateRoute
                   exact
@@ -113,6 +110,13 @@ class App extends Component {
                   exact
                   path="/feed"
                   component={Posts}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/post/:id"
+                  component={Post}
                 />
               </Switch>
               <Route
