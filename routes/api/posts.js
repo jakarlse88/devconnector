@@ -297,7 +297,7 @@ router.post(
 // @desc    Remove comment from post
 // @access  Private
 router.delete(
-  '/comment/:post_id/:comment_id',
+  '/comments/:post_id/:comment_id',
   passport.authenticate('jwt', {
     session: false
   }),

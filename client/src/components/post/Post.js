@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+import CommentFeed from './CommentFeed';
 import CommentForm from './CommentForm';
 import PostItem from '../posts/PostItem';
 import Spinner from '../common/Spinner';
@@ -29,6 +30,10 @@ class Post extends Component {
         <div>
           <PostItem post={post} showActions={false} />
           <CommentForm postID={post._id} />
+          <CommentFeed
+            postID={post._id}
+            comments={post.comments}
+          />
         </div>
       );
     }
